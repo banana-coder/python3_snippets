@@ -9,8 +9,8 @@ def get_all_words(url):
     base_word_list = []
     for div_content in soup.findAll("div", {"class": "esc-lead-snippet-wrapper"}):
         content = div_content.string
-        #print(type(content))
-        #continue;
+        # print(type(content))
+        # continue;
         if content is not None:
             base_words = content.lower().split(" ")
             for word in base_words:
@@ -30,7 +30,7 @@ def filter_words(words):
 
 
 def count_and_sort(words):
-    result_set = {};
+    result_set = {}
     for word in words:
         if word in result_set:
             result_set[word] += 1
