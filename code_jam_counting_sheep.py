@@ -52,7 +52,6 @@ def track_numbers(case_no, input_val):
             print("insomnia")
             return "Case #" + str(case_no) + ": INSOMNIA\n"
         number = number_2
-    return "Case #" + str(case_no) + ": INSOMNIA\n"
 
 
 file_values = get_inputs_from_file("A-large-practice.in")
