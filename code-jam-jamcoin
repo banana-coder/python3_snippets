@@ -1,0 +1,94 @@
+import math
+
+
+def decimal_to_binary(dec_num, tot_len):
+    rem_list = []
+    div = dec_num
+    while div > 0:
+        rem_list.append(div % 2)
+        div = int(div / 2)
+    rem_list = rem_list[::-1]
+    str_num = ""
+    for num in rem_list:
+        str_num += str(num)
+    final_num = ""
+    for i in range(0, tot_len - len(str_num)):
+        final_num += "0"
+    final_num += str_num
+    return final_num
+
+
+def get_base_value(num, base):
+    base_val = 0
+    num_len = len(num)
+    for i in range(0, num_len):
+        base_val += (int(num[i]) * (base ** (num_len - i - 1)))
+    return base_val
+
+
+def get_all_base_numbers(num):
+    base_value = []
+    for base in range(2, 11):
+        base_value.append(get_base_value(num, base))
+    return base_value
+
+
+def __check_prime(num):
+    for i in range(2, int(math.sqrt(num)) + 1):
+        if num % i == 0:
+            return i
+    return -1
+
+
+def __check_prime_for_large(num):
+    small_primes = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+    for i in small_primes:
+        if num % i == 0:
+            return i
+    return -1
+
+def jam_coin_primary_check(broken_list):
+    non_trvial = ""
+    for i in broken_list:
+        prime = __check_prime(i)
+        if prime == -1:
+            return -1
+        non_trvial += str(prime) + " "
+    return non_trvial
+
+
+def generate_number(length, j_limit):
+    markup_str = "Case #1:\n"
+    operable_length = length - 2
+    max_number = 2 ** operable_length
+    j = 0
+    for i in range(0, max_number):
+        wrapped_number = "1" + decimal_to_binary(i, operable_length) + "1"
+        base_list = get_all_base_numbers(wrapped_number)
+        jam_coin = jam_coin_primary_check(base_list)
+        print(base_list)
+        if jam_coin == -1:
+            continue
+        j += 1
+        markup_str += str(wrapped_number) + " " + jam_coin + "\n"
+        if j == j_limit:
+            break
+    return markup_str
+
+
+def get_inputs_from_file(file_name):
+    read_file = open(file_name, "r")
+    text = read_file.read()
+    text_list = text.split("\n")
+    read_file.close()
+    return text_list
+
+
+def write_output_file(text):
+    write_file = open("jamcoin.out", "w")
+    write_file.write(text)
+    write_file.close()
+    return True
+
+write_output_file(generate_number(32, 500))
+
